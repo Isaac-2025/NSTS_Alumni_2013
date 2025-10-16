@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Directory - SHS Old Students</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #6ed60e;
+            --secondary: #e63946;
+            --accent: #ffb703;
+            --light: #f1faee;
+            --dark: #6ed60e;
+            --gray: #706c7d;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header and Navigation */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 90px;
+            height: 60px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--primary);
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
+        }]
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        /* Page Title */
+        .page-title {
+            margin-top: 100px;
+            padding: 2rem;
+            text-align: center;
+            background: , 
+                        url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            color: green;
+        }
+
+        .page-title h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-title p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Directory Controls */
+        .directory-controls {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.8rem 1rem 0.8rem 2.5rem;
+            border-radius: 50px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 0.8rem 1rem;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background-color: white;
+            font-size: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        /* Alumni Grid */
+        .alumni-directory {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 0 2rem;
+        }
+
+        .alumni-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .alumni-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .alumni-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .alumni-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .alumni-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .alumni-card:hover .alumni-image img {
+            transform: scale(1.05);
+        }
+
+        .marital-status {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .single {
+            color: var(--secondary);
+        }
+
+        .married {
+            color: green;
+        }
+
+        .alumni-details {
+            padding: 1.5rem;
+        }
+
+        .alumni-name {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .alumni-occupation {
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .alumni-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--dark);
+        }
+
+        .info-item i {
+            color: var(--primary);
+            width: 20px;
+        }
+
+        .alumni-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 0.5rem;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--primary);
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+        }
+
+        .action-btn:hover {
+            background-color: var(--dark);
+        }
+
+        .action-btn.message {
+            background-color: var(--accent);
+            color: var(--dark);
+        }
+
+        .action-btn.message:hover {
+            background-color: #ffa200;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 3rem;
+            gap: 0.5rem;
+        }
+
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            background-color: white;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .page-btn:hover, .page-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            color: var(--primary);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-profile {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .modal-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .modal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-details {
+            flex: 1;
+        }
+
+        .modal-name {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .modal-occupation {
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .modal-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .modal-info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .info-value {
+            color: var(--gray);
+        }
+
+        .modal-bio {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                right: -100%;
+                flex-direction: column;
+                background-color: var(--primary);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+                padding: 2rem 0;
+                gap: 0;
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-item {
+                margin: 1rem 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .directory-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                min-width: 100%;
+            }
+
+            .filter-options {
+                justify-content: center;
+            }
+
+            .alumni-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-profile {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .modal-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo-container">
+                <div class="logo">2013</div>
+                <div class="logo-text">Alumni Network</div>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                                        
+                </ul>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Title -->
+    <section class="page-title">
+        <h1>Alumni Gallery</h1>
+        <p>Find and connect with fellow SHS alumni from different graduating classes</p>
+    </section>
+
+    <!-- Directory Controls -->
+    <section class="directory-controls">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Search by name, occupation, or location...">
+        </div>
+        <div class="filter-options">
+            <select class="filter-select" id="graduationFilter">
+                <option value="">All Graduation Years</option>
+                <option value="2010">2010</option>
+                <option value="2011">2011</option>
+                <option value="2012">2012</option>
+                <option value="2013">2013</option>
+                <option value="2014">2014</option>
+                <option value="2015">2015</option>
+            </select>
+            <select class="filter-select" id="locationFilter">
+                <option value="">All Locations</option>
+                <option value="Accra">Accra</option>
+                <option value="Kumasi">Kumasi</option>
+                <option value="Takoradi">Takoradi</option>
+                <option value="Tamale">Tamale</option>
+                <option value="Cape Coast">Cape Coast</option>
+                <option value="Abroad">Abroad</option>
+            </select>
+            <select class="filter-select" id="occupationFilter">
+                <option value="">All Occupations</option>
+                <option value="Education">Education</option>
+                <option value="Healthcare">Healthcare</option>
+                <option value="Technology">Technology</option>
+                <option value="Business">Business</option>
+                <option value="Engineering">Engineering</option>
+                <option value="Arts">Arts & Media</option>
+            </select>
+        </div>
+    </section>
+
+    <!-- Alumni Directory -->
+    <section class="alumni-directory">
+        <div class="alumni-grid" id="alumniGrid">
+            <!-- Alumni cards will be generated by JavaScript -->
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination" id="pagination">
+            <!-- Pagination buttons will be generated by JavaScript -->
+        </div>
+    </section>
+
+    <!-- Member Modal -->
+    <div class="modal" id="memberModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Member Profile</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Modal content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="logo-container">
+                <div class="logo">SHS</div>
+                <div class="logo-text">Alumni Network</div>
+            </div>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2013 SHS Alumni Network. All rights reserved. <br>Powered by: Isaac Takyi Boateng</br></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample alumni data
+        const alumniData = [
+            {
+                id: 1,
+                name: "Kwame Mensah",
+                graduationYear: 2010,
+                occupation: "Software Engineer",
+                location: "Accra, Ghana",
+                phone: "+233 24 123 4567",
+                maritalStatus: "married",
+                image: "https://randomuser.me/api/portraits/men/1.jpg",
+                bio: "Kwame is a passionate software engineer with over 10 years of experience in web development. He currently works at a leading tech company in Accra."
+            },
+            {
+                id: 2,
+                name: "Ama Serwaa",
+                graduationYear: 2011,
+                occupation: "Medical Doctor",
+                location: "Kumasi, Ghana",
+                phone: "+233 20 987 6543",
+                maritalStatus: "single",
+                image: "https://randomuser.me/api/portraits/women/2.jpg",
+                bio: "Dr. Ama Serwaa specializes in pediatrics and works at Komfo Anokye Teaching Hospital. She is passionate about child healthcare in rural communities."
+            },
+            {
+                id: 3,
+                name: "Kofi Anokye",
+                graduationYear: 2012,
+                occupation: "Business Owner",
+                location: "Takoradi, Ghana",
+                phone: "+233 54 333 4444",
+                maritalStatus: "married",
+                image: "https://randomuser.me/api/portraits/men/3.jpg",
+                bio: "Kofi owns a successful chain of restaurants in Takoradi. He is actively involved in mentoring young entrepreneurs in the food industry."
+            },
+            {
+                id: 4,
+                name: "Esi Boateng",
+                graduationYear: 2013,
+                occupation: "University Lecturer",
+                location: "Cape Coast, Ghana",
+                phone: "+233 26 555 6666",
+                maritalStatus: "single",
+                image: "https://randomuser.me/api/portraits/women/4.jpg",
+                bio: "Dr. Esi Boateng teaches Economics at the University of Cape Coast. Her research focuses on developmental economics in West Africa."
+            },
+            {
+                id: 5,
+                name: "Yaw Asante",
+                graduationYear: 2014,
+                occupation: "Civil Engineer",
+                location: "Tamale, Ghana",
+                phone: "+233 27 777 8888",
+                maritalStatus: "married",
+                image: "https://randomuser.me/api/portraits/men/5.jpg",
+                bio: "Yaw works on major infrastructure projects in Northern Ghana. He has contributed to several road and bridge construction projects."
+            },
+            {
+                id: 6,
+                name: "Akua Adjei",
+                graduationYear: 2015,
+                occupation: "Graphic Designer",
+                location: "Accra, Ghana",
+                phone: "+233 50 111 2222",
+                maritalStatus: "single",
+                image: "https://randomuser.me/api/portraits/women/6.jpg",
+                bio: "Akua runs her own design studio in Accra, creating visual identities for both local and international clients."
+            },
+            {
+                id: 7,
+                name: "Nana Yeboah",
+                graduationYear: 2010,
+                occupation: "Bank Manager",
+                location: "Kumasi, Ghana",
+                phone: "+233 24 333 4444",
+                maritalStatus: "married",
+                image: "https://randomuser.me/api/portraits/men/7.jpg",
+                bio: "Nana manages a branch of one of Ghana's leading banks. He has over 12 years of experience in the banking sector."
+            },
+            {
+                id: 8,
+                name: "Abena Osei",
+                graduationYear: 2011,
+                occupation: "Journalist",
+                location: "Accra, Ghana",
+                phone: "+233 20 555 6666",
+                maritalStatus: "single",
+                image: "https://randomuser.me/api/portraits/women/8.jpg",
+                bio: "Abena is an award-winning journalist working for a major television network. She specializes in political and social issues."
+            },
+            {
+                id: 9,
+                name: "Kwabena Darko",
+                graduationYear: 2012,
+                occupation: "Agricultural Scientist",
+                location: "Tamale, Ghana",
+                phone: "+233 54 777 8888",
+                maritalStatus: "married",
+                image: "https://randomuser.me/api/portraits/men/9.jpg",
+                bio: "Kwabena researches sustainable farming practices at a government agricultural research station in Northern Ghana."
+            },
+            {
+                id: 10,
+                name: "Afia Poku",
+                graduationYear: 2013,
+                occupation: "Nurse",
+                location: "Kumasi, Ghana",
+                phone: "+233 26 999 0000",
+                maritalStatus: "single",
+                image: "https://randomuser.me/api/portraits/women/10.jpg",
+                bio: "Afia works in the emergency department of a major hospital in Kumasi. She is passionate about emergency care and patient advocacy."
+            },
+            {
+                id: 11,
+                name: "Michael Asare",
+                graduationYear: 2014,
+                occupation: "IT Consultant",
+                location: "Abroad",
+                phone: "+1 234 567 8900",
+                maritalStatus: "married",
+                image: "https://randomuser.me/api/portraits/men/11.jpg",
+                bio: "Michael works as an IT consultant in the United States, helping businesses implement digital transformation strategies."
+            },
+            {
+                id: 12,
+                name: "Cynthia Owusu",
+                graduationYear: 2015,
+                occupation: "Marketing Manager",
+                location: "Accra, Ghana",
+                phone: "+233 50 222 3333",
+                maritalStatus: "single",
+                image: "https://randomuser.me/api/portraits/women/12.jpg",
+                bio: "Cynthia leads the marketing team for a multinational FMCG company in Ghana. She has won several awards for her innovative campaigns."
+            }
+        ];
+
+        // DOM Elements
+        const alumniGrid = document.getElementById('alumniGrid');
+        const pagination = document.getElementById('pagination');
+        const searchInput = document.getElementById('searchInput');
+        const graduationFilter = document.getElementById('graduationFilter');
+        const locationFilter = document.getElementById('locationFilter');
+        const occupationFilter = document.getElementById('occupationFilter');
+        const memberModal = document.getElementById('memberModal');
+        const modalBody = document.getElementById('modalBody');
+        const closeModal = document.querySelector('.close-modal');
+
+        // Pagination variables
+        const alumniPerPage = 6;
+        let currentPage = 1;
+        let filteredAlumni = [...alumniData];
+
+        // Initialize the directory
+        function initDirectory() {
+            renderAlumniCards();
+            renderPagination();
+            setupEventListeners();
+        }
+
+        // Render alumni cards for current page
+        function renderAlumniCards() {
+            alumniGrid.innerHTML = '';
+            
+            const startIndex = (currentPage - 1) * alumniPerPage;
+            const endIndex = startIndex + alumniPerPage;
+            const alumniToShow = filteredAlumni.slice(startIndex, endIndex);
+            
+            if (alumniToShow.length === 0) {
+                alumniGrid.innerHTML = '<p class="no-results">No alumni match your search criteria.</p>';
+                return;
+            }
+            
+            alumniToShow.forEach(alumni => {
+                const card = document.createElement('div');
+                card.className = 'alumni-card';
+                card.innerHTML = `
+                    <div class="alumni-image">
+                        <img src="${alumni.image}" alt="${alumni.name}">
+                        <div class="marital-status ${alumni.maritalStatus}">
+                            ${alumni.maritalStatus === 'married' ? 'Married' : 'Single'}
+                        </div>
+                    </div>
+                    <div class="alumni-details">
+                        <h3 class="alumni-name">${alumni.name}</h3>
+                        <p class="alumni-occupation">${alumni.occupation}</p>
+                        <div class="alumni-info">
+                            <div class="info-item">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Class of ${alumni.graduationYear}</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>${alumni.location}</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-phone"></i>
+                                <span>${alumni.phone}</span>
+                            </div>
+                        </div>
+                        <div class="alumni-actions">
+                            <button class="action-btn view-profile" data-id="${alumni.id}">
+                                <i class="fas fa-user"></i> View Profile
+                            </button>
+                            <button class="action-btn message">
+                                <i class="fas fa-envelope"></i> Message
+                            </button>
+                        </div>
+                    </div>
+                `;
+                alumniGrid.appendChild(card);
+            });
+            
+            // Add event listeners to view profile buttons
+            document.querySelectorAll('.view-profile').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const id = parseInt(e.target.closest('.view-profile').dataset.id);
+                    showMemberProfile(id);
+                });
+            });
+        }
+
+        // Render pagination buttons
+        function renderPagination() {
+            pagination.innerHTML = '';
+            const totalPages = Math.ceil(filteredAlumni.length / alumniPerPage);
+            
+            if (totalPages <= 1) return;
+            
+            // Previous button
+            if (currentPage > 1) {
+                const prevBtn = document.createElement('div');
+                prevBtn.className = 'page-btn';
+                prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+                prevBtn.addEventListener('click', () => {
+                    currentPage--;
+                    renderAlumniCards();
+                    renderPagination();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+                pagination.appendChild(prevBtn);
+            }
+            
+            // Page buttons
+            for (let i = 1; i <= totalPages; i++) {
+                const pageBtn = document.createElement('div');
+                pageBtn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+                pageBtn.textContent = i;
+                pageBtn.addEventListener('click', () => {
+                    currentPage = i;
+                    renderAlumniCards();
+                    renderPagination();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+                pagination.appendChild(pageBtn);
+            }
+            
+            // Next button
+            if (currentPage < totalPages) {
+                const nextBtn = document.createElement('div');
+                nextBtn.className = 'page-btn';
+                nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                nextBtn.addEventListener('click', () => {
+                    currentPage++;
+                    renderAlumniCards();
+                    renderPagination();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+                pagination.appendChild(nextBtn);
+            }
+        }
+
+        // Show member profile in modal
+        function showMemberProfile(id) {
+            const alumni = alumniData.find(a => a.id === id);
+            if (!alumni) return;
+            
+            modalBody.innerHTML = `
+                <div class="modal-profile">
+                    <div class="modal-image">
+                        <img src="${alumni.image}" alt="${alumni.name}">
+                    </div>
+                    <div class="modal-details">
+                        <h2 class="modal-name">${alumni.name}</h2>
+                        <p class="modal-occupation">${alumni.occupation}</p>
+                        <div class="modal-info">
+                            <div class="modal-info-item">
+                                <span class="info-label">Graduation Year</span>
+                                <span class="info-value">${alumni.graduationYear}</span>
+                            </div>
+                            <div class="modal-info-item">
+                                <span class="info-label">Location</span>
+                                <span class="info-value">${alumni.location}</span>
+                            </div>
+                            <div class="modal-info-item">
+                                <span class="info-label">Phone</span>
+                                <span class="info-value">${alumni.phone}</span>
+                            </div>
+                            <div class="modal-info-item">
+                                <span class="info-label">Marital Status</span>
+                                <span class="info-value">${alumni.maritalStatus === 'married' ? 'Married' : 'Single'}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-bio">
+                    <h3>About</h3>
+                    <p>${alumni.bio}</p>
+                </div>
+            `;
+            
+            memberModal.style.display = 'flex';
+        }
+
+        // Filter alumni based on search and filters
+        function filterAlumni() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const graduationYear = graduationFilter.value;
+            const location = locationFilter.value;
+            const occupation = occupationFilter.value;
+            
+            filteredAlumni = alumniData.filter(alumni => {
+                const matchesSearch = 
+                    alumni.name.toLowerCase().includes(searchTerm) ||
+                    alumni.occupation.toLowerCase().includes(searchTerm) ||
+                    alumni.location.toLowerCase().includes(searchTerm);
+                
+                const matchesGraduation = !graduationYear || alumni.graduationYear.toString() === graduationYear;
+                const matchesLocation = !location || alumni.location.includes(location);
+                const matchesOccupation = !occupation || alumni.occupation.includes(occupation);
+                
+                return matchesSearch && matchesGraduation && matchesLocation && matchesOccupation;
+            });
+            
+            currentPage = 1;
+            renderAlumniCards();
+            renderPagination();
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Toggle mobile menu
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+            
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }));
+            
+            // Search and filter events
+            searchInput.addEventListener('input', filterAlumni);
+            graduationFilter.addEventListener('change', filterAlumni);
+            locationFilter.addEventListener('change', filterAlumni);
+            occupationFilter.addEventListener('change', filterAlumni);
+            
+            // Modal events
+            closeModal.addEventListener('click', () => {
+                memberModal.style.display = 'none';
+            });
+            
+            window.addEventListener('click', (e) => {
+                if (e.target === memberModal) {
+                    memberModal.style.display = 'none';
+                }
+            });
+        }
+
+        // Initialize the directory when page loads
+        document.addEventListener('DOMContentLoaded', initDirectory);
+    </script>
+</body>
+</html>
